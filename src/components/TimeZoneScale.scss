@@ -1,0 +1,61 @@
+.timezone-scale {
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 1px;
+    height: 16px;
+    background: rgba(0,0,0,.25);
+    transform: translateX(-50%);
+    z-index: 11;
+
+}
+
+.timezone-scale.selected,
+.timezone-scale.selected:last-child {
+    height: 100px;
+}
+.timezone-scale .cities {
+    display: none;
+}
+.timezone-scale.selected .cities {
+    display: block;
+    width: 100px;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+.timezone-scale.selected .cities .city {
+    width: 100px;
+    top: 40px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    position: relative;
+    background: white;
+    display: block;
+    text-align: center;
+}
+.city-time {
+    font-size: 30px;
+}
+.city-date {
+    font-size: 10px;
+}
+.city-ampm {
+    font-size: 10px;
+    font-weight: 900;
+}
+span.postfix {
+    font-size: 10px;
+}
+// <div className={"cities"}>
+// <dic className={"city"}>
+//   Seoul
+// </dic>
+// </div>
+
+.timezone-scale-container {
+    position: relative;
+    width: 100%;
+    height: 240px;
+    margin-top: 10px;
+}

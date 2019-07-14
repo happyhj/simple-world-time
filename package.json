@@ -1,0 +1,58 @@
+{
+  "name": "simple-world-clock",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^4.2.0",
+    "@material/floating-label": "^2.3.0",
+    "@material/react-button": "^0.12.1",
+    "@material/react-list": "^0.13.2",
+    "@material/react-material-icon": "^0.13.0",
+    "@material/react-select": "^0.14.1",
+    "@material/react-text-field": "^0.13.0",
+    "@material/react-top-app-bar": "^0.13.0",
+    "@material/react-typography": "^0.12.0",
+    "@types/classnames": "^2.2.7",
+    "@types/node": "^12.0.2",
+    "@types/react": "^16.8.18",
+    "@types/react-dom": "^16.8.4",
+    "axios": "^0.19.0",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "moment": "^2.24.0",
+    "mongoose": "^5.6.0",
+    "node-sass": "^4.12.0",
+    "nodemon": "^1.19.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-dropzone": "^8.0.3",
+    "react-image": "^2.1.3",
+    "react-redux": "^6.0.0",
+    "react-router-dom": "^5.0.1",
+    "react-scripts": "3.0.1",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0",
+    "typescript": "^3.4.5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
