@@ -10,8 +10,10 @@ import Slider from '@material-ui/core/Slider';
 // import LabelingTool from './LabelingTool'
 import SolarVisualization from './SolarVisualization'
 import TimeZoneScale from './TimeZoneScale'
+import EditCities from './EditCities'
 
-import {aquireLocalTimezone, aquireUTCTime} from '../actions/app'
+
+import {aquireLocalTimezone, aquireUTCTime, addCity} from '../actions/app'
 
 import './App.css'
 
@@ -21,27 +23,35 @@ class App extends Component {
   state = {localHours: null, localtimeVal: 0, refPosition:0, timezone: 0}
   componentDidMount() {
     this.props.aquireLocalTimezone()
-    this.props.aquireUTCTime()
+    setInterval(() => {
+      this.props.aquireUTCTime()
+    }, 1000)
+
+    // city restore   
+    const cities = JSON.parse(localStorage.getItem("cities")) || []
+    cities.forEach(city => this.props.addCity(city))    
   }
   componentWillUnmount() {
   }
 
   render() {
+    const time = (new Date()).getUTCHours() +
+    (new Date()).getUTCMinutes()/60 +
+    (new Date()).getUTCSeconds()/(60*60)
+
     return (
       <div className="App">
         <div className="content-container">
           <SolarVisualization
-            hours={parseInt(this.state.localtimeVal/(60*60),10)}
+            hours={time}
             minutes={0}
             seconds={0}
             width={800}
             height={24}
-            startPosition={this.state.refPosition/100}
+            startPosition={0.5}
           />
-          <TimeZoneScale
-            timezone={this.state.timezone}  // -12 ~ +12 
-          />
-
+          <TimeZoneScale/>
+{/* 
           <p>local time: {parseInt(this.state.localtimeVal/(60*60), 10)}</p>
           <Slider value={this.state.localtimeVal} 
             min={0}
@@ -64,10 +74,11 @@ class App extends Component {
               this.setState({timezone: v})
             }} aria-labelledby="timezone-slider" />
           <br/>
-          <br/>
+          <br/> */}
         </div>
+        <EditCities />
       </div>
     )
   }
 }
-export default connect(state => state, {aquireLocalTimezone, aquireUTCTime})(App)
+export default connect(state => state, {aquireLocalTimezone, aquireUTCTime, addCity})(App)

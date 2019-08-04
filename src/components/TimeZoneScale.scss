@@ -25,20 +25,39 @@
 }
 
 .timezone-scale.selected .cities .city {
-    width: 100px;
     top: 40px;
     padding-top: 16px;
-    padding-bottom: 16px;
     position: relative;
-    background: white;
     display: block;
-    text-align: center;
+    text-align: center;    
+
+    width: 300px;
+    transform: translateX(-50%);
+    margin-left: 50%;
+
+}
+.timezone-scale.selected .cities .city.placeholder {
+    height: 80px;
+    box-sizing: border-box;
+    // border: 1px dashed rgba(0,0,0,.1);
+}
+.timezone-scale.selected .cities .city.placeholder:first-child {
+    height: 84px;
+}
+
+
+.city-name {
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .city-time {
     font-size: 30px;
 }
 .city-date {
     font-size: 10px;
+}
+.city-name span,.city-time span,.city-date span{
+    background-color: rgba(255,255,255,1);
 }
 .city-ampm {
     font-size: 10px;

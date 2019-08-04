@@ -34,6 +34,11 @@ class TimeZoneScale extends Component {
   }
   render() {
     // this.props.timezone
+    const primaryCity =this.props.app.primaryCity
+    if (!primaryCity) {
+      return <div></div>
+    }
+    
     const timezones = [ 
       -12,-11,
       -10, -9, -8, -7, -6,
@@ -42,42 +47,91 @@ class TimeZoneScale extends Component {
         5,  6,  7,  8,  9,
         10, 11, 12
     ]
-
     
+    const cities = [Object.assign(primaryCity, {isPrimary: true})]
+    cities.push(...this.props.app.cities.map(v => {
+      let offset = v.offset
+      if (offset > 12) {
+        offset = offset - 24
+      } else if (offset < -12) {
+        offset = offset + 24  
+      }  
+      return Object.assign(v, {offset})
+    }))
+    const timezoneBucket = timezones.map(offset => {  
+      return {
+        offset,
+        cities: cities.filter(city => city.offset === offset)
+      }
+    })
+
+    timezoneBucket.some(timezone => timezone.cities.length > 1)
+    let cityDrawn = 0
     return (<div>
       <div className="timezone-scale-container">
-        {timezones.map((v, i) => {
-          return <div key={i} className={
-            this.props.timezone === v ? "timezone-scale selected" : "timezone-scale" 
+        {timezones.map((v, timezoneIdx) => {
+          const cities = timezoneBucket.filter(timezone => timezone.offset === v)[0].cities
+          const numOfCities = cities.length
+          const time = new Date(this.props.app.UTCTimestamp + (v * 60 * 60 * 1000))
+          const isPrimaryTimezone = cities.some(city => city.isPrimary)
+          const numOfPrimaryTimezoneCity = timezoneBucket.filter(v => v.offset === primaryCity.offset)[0].cities.length
+          const numOfPlaceholders = isPrimaryTimezone ? 0 : Math.max(cityDrawn, 0) + numOfPrimaryTimezoneCity
+
+          let scaleHeight = undefined
+
+          if (numOfCities > 0) {
+            if (isPrimaryTimezone) {
+              scaleHeight = `${46}px`
+            } else {
+              scaleHeight = `${52 + (numOfPlaceholders) * 80}px`
+            }    
+          }
+        
+          return <div key={timezoneIdx} className={
+            numOfCities > 0 ? "timezone-scale selected" : "timezone-scale" 
           }
             style={{
-              left: `${i* 4.1667}%`
+              left: `${timezoneIdx* 4.1667}%`,
+              height: scaleHeight
             }}
           >
             <div className={"cities"}>
-              <dic className={"city"}>
-                <div className={"city-name"}>
-                  <MaterialIcon icon='place' style={{
-                    // position: "absolute",
-                    // display: "block",
-                    // left: `${(sunProgress)*100}%`,
-                    // top: "50%",
-                    // transform: "translateX(-50%) translateY(-50%)",
-                    fontSize: "19px",
-                    verticalAlign: "bottom",
-                    color: "#d25454",
-                  }}/>
-                  Seoul</div>
-                <div className={"city-time"}>
-                  12:08 <span className="postfix">PM</span>
-                </div>
-                <div className={"city-date"}>
-                  July 12th
-                </div>
-                <div className={"city-ampm"}>
-                  Afternoon
-                </div>
-              </dic>
+              {
+                (() => {
+                  // place holder 
+                  const ph = []
+                  for (let i=0;i<numOfPlaceholders;i++) {
+                    ph.push(<div className={"city placeholder"}></div>)
+                  }
+                  return ph
+                })()
+              }
+              {
+                cities.map(city => {
+                  cityDrawn = cityDrawn + 1
+                  return <div className={"city"}>
+                    <div className={"city-name"}>
+                      {city.isPrimary && <MaterialIcon icon='place' style={{
+                          fontSize: "19px",
+                          verticalAlign: "bottom",
+                          color: "#d25454",
+                        }}/>
+                      }
+                      <span>{city[1]}</span></div>
+                    <div className={"city-time"}>
+                    <span>{time.getUTCHours()}:{time.getUTCMinutes()}</span>
+                    </div>
+                    <div className={"city-date"}>
+                    <span>{time.getUTCMonth()}/{time.getUTCDate()}</span>
+                    </div>
+                    <div className={"city-ampm"}>
+                      {/* Afternoon */}
+                    </div>
+                  </div>
+                }) 
+              }
+              <div className={"city placeholder"}></div>
+              <div className={"city placeholder"}></div>
             </div>
           </div>
         })}

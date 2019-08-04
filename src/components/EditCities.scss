@@ -1,0 +1,17 @@
+.exit-container {
+  position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: white;
+    z-index: 1000;
+    text-align: center;
+}
+
+.center-bottom {
+    position: fixed;
+    bottom: 40px;
+    left: 40px;
+    z-index: 900;
+}
